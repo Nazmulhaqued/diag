@@ -33,6 +33,7 @@ class PatientController extends Controller
 
         $data['test_price'] = implode(', ' ,$request->test_price);
         $data['commission_total'] = implode(', ' ,$request->test_commission);
+        $commission = implode(', ' ,$request->test_commission);
     
         $data['publicationStatus'] = $request->publicationStatus;
 
@@ -49,17 +50,26 @@ class PatientController extends Controller
 
           $explodevalue =  explode(',', $patients->test_price);
           $sum['price_total'] = array_sum($explodevalue);
-
+          $price_total = array_sum($explodevalue);
           $commission =  explode(',', $patients->commission_total);
-
-          $sum['total_due'] = $sum['price_total'] - $request->paid;
+          $commission_total = array_sum($commission);
+          $commission_t =  $commission_total;
           $due_paid_by = $request->due_paid_by;
-          if($due_paid_by !== NULL){
-            $sum['commission_total'] = $sum['commission_total'] = array_sum($commission); - $sum['total_due'] = $sum['price_total'] - $request->paid;
-             $sum['total_paid'] =  $data['total_paid'] = $request->paid; + $sum['total_due'];
+          $paid_1 = $request->paid;
+          $price_t = $price_total;
+          $due = $price_t - $paid_1;
+          if($due_paid_by !== NULL && $due !== NULL){
+             $sum['commission_total'] = $commission_t; - $due;
+             $sum['total_paid'] = $paid_1; + $due;
+             $sum['total_due'] = 0;
+          }else if($due_paid_by == NULL && $due !== NULL){
+             $sum['total_paid'] = $paid_1;
+             $sum['commission_total'] = $commission_t;
+             $sum['total_due'] = $due;
           }else{
-             $data['total_paid'] = $request->paid;
-             $sum['commission_total'] = array_sum($commission);
+            $sum['total_paid'] = $paid_1;
+            $sum['commission_total'] = $commission_t;
+            $sum['total_due'] = $due;
           }
          
 
