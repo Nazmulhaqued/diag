@@ -39,13 +39,9 @@ class PatientController extends Controller
 
          $patient_id_is = DB::table('patients')
                 ->insertGetId($data);
-        if($patient_id_is){
-            Session::put('patient_id_is',$patient_id_is);
-        }
-         $patient_id = Session::get('patient_id_is');
          
          $patients = DB::table('patients')
-                          ->where('patient_id',$patient_id)
+                          ->where('patient_id',$patient_id_is)
                           ->first();
 
           $explodevalue =  explode(',', $patients->test_price);
@@ -53,28 +49,27 @@ class PatientController extends Controller
           $price_total = array_sum($explodevalue);
           $commission =  explode(',', $patients->commission_total);
           $commission_total = array_sum($commission);
-          $commission_t =  $commission_total;
           $due_paid_by = $request->due_paid_by;
           $paid_1 = $request->paid;
           $price_t = $price_total;
           $due = $price_t - $paid_1;
           if($due_paid_by !== NULL && $due !== NULL){
-             $sum['commission_total'] = $commission_t; - $due;
-             $sum['total_paid'] = $paid_1; + $due;
+             $sum['commission_total'] = -$due+$commission_total;
+             $sum['total_paid'] = $due +$paid_1;
              $sum['total_due'] = 0;
           }else if($due_paid_by == NULL && $due !== NULL){
              $sum['total_paid'] = $paid_1;
-             $sum['commission_total'] = $commission_t;
+             $sum['commission_total'] = $commission_total;
              $sum['total_due'] = $due;
           }else{
             $sum['total_paid'] = $paid_1;
-            $sum['commission_total'] = $commission_t;
+            $sum['commission_total'] = $commission_total;
             $sum['total_due'] = $due;
           }
          
 
           DB::table('patients')
-                  ->where('patient_id',$patient_id)
+                  ->where('patient_id',$patient_id_is)
                   ->update($sum);
 
         Session::put('storeCategory','Patient Test Save Successfully');
