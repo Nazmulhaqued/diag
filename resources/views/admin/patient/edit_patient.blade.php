@@ -52,6 +52,23 @@
             
             <div class="clearfix"> </div>
             </div>
+
+             <div class="col-md-6 form-group group-mail" style="margin-top:20px;">
+              <label class="form-control-label">Test Names </label><br/>
+             
+      
+            <?php 
+              $commaString = $patient_info->test_name; 
+              $myArray = explode(', ', $commaString);
+              $array_count = count($myArray)-1;
+
+              for($i=0; $i<=$array_count; $i++){
+              ?>
+            <input type="checkbox" name="test_name[]" value="{{ $patient_info->test_name[$i] }}">  {{ $myArray[$i] }}
+           
+          <?php } ?>
+           
+           </div>
             
             <!-- <div class="col-md-12 form-group">
               <label class="form-control-label">Patient Short Description</label>
@@ -62,10 +79,32 @@
               <label class="control-label">Patient Long Description</label>
               <textarea name="product_Longdescription" id="mytextarea" class="form-control" placeholder=" Long Description" ></textarea>
             </div> -->
-
-            <div class="col-md-6 form-group">
+            <div class="row container">
+            <div class="col-md-4 form-group">
               <label class="form-control-label">Paid</label>
-              <input type="text" class="form-control" value="{{$patient_info->age}}" name="paid" placeholder="Paid" required="">
+              <input type="text" class="form-control" value="{{$patient_info->total_paid}}" name="paid" placeholder="Paid" required="">
+            </div>
+            <div class="col-md-4 form-group">
+              <label class="form-control-label">Due</label>
+              <input type="text" class="form-control" value="{{$patient_info->total_due}}" name="paid" placeholder="Paid" required="">
+            </div>
+            </div>
+
+            <div class="col-md-6 form-group2 group-mail">
+              <label class="form-control-label">Due Paid By</label>
+            <?php
+              $category_name = DB::table('doctorrefs')
+              ->get();
+
+              ?>
+            <select name="due_paid_by" class="form-control">
+
+            @foreach($category_name as $vcategory_name)
+              <option value="">Pay By Referrence</option>
+              <option value="{{$vcategory_name->doctorrefs_id}}">{{$vcategory_name->doctorName}}</option>
+              @endforeach
+            </select>
+
             </div>
 
             <div class="col-md-4 form-group2 group-mail">
@@ -75,6 +114,7 @@
               <option value="0">Unpublish</option>
             </select>
             </div>
+            
              <div class="clearfix" style="height:30px;"> </div>
           
             <div class="col-md-12 form-group">

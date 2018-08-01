@@ -54,7 +54,7 @@ class PatientController extends Controller
           $price_t = $price_total;
           $due = $price_t - $paid_1;
           if($due_paid_by !== NULL && $due !== NULL){
-             $sum['commission_total'] = -$due+$commission_total;
+             $sum['commission_total'] =$commission_total -$due;
              $sum['total_paid'] = $due +$paid_1;
              $sum['total_due'] = 0;
           }else if($due_paid_by == NULL && $due !== NULL){
@@ -83,28 +83,18 @@ class PatientController extends Controller
             ->with('all_patients',$all_patients );
     }
     public function showPatient($product_id){
-        $single_products = DB::table('product')
-                            ->where('product_id',$product_id)
+        $patient_info = DB::table('patients')
+                            ->where('patient_id',$product_id)
                             ->first();
 
-        $category_info = DB::table('categories')
-                            ->where('category_url',$single_products->category_url)
-                            ->first();
-        if($single_products->subcategory_url !== NULL){
-                 $subcategory_info = DB::table('subcategories')
-                ->where('subcategory_url',$single_products->subcategory_url)
-                ->first();  
-                }
-
-        return view ('admin.products.single_products')
-                ->with('single_products',$single_products)
-                ->with('category_info',$category_info)
-                ->with('subcategory_info',$subcategory_info);
+        return view ('admin.patient.single_patient')
+                ->with('patient_info',$patient_info);
      } 
     public function editThePatient($product_id){
             $patient_info = DB::table('patients')
                 ->where('patient_id',$product_id)
                 ->first();
+
         return view ('admin.patient.edit_patient')
             ->with('patient_info',$patient_info);
     }
@@ -133,59 +123,6 @@ class PatientController extends Controller
         $data['publicationStatus'] = $request->publicationStatus;
         
         /*Product Featured Image update*/
-        $productImage = $request->file('productImage');
-
-        if($productImage){
-        $imageName = $productImage->getClientOriginalName();
-        $uploadPath = 'public/productImage/';
-        $productImage->move($uploadPath,$imageName);
-        $imageUrl = $uploadPath.$imageName;
-        $data['productImage'] = $imageUrl;
-        }
-
-        /*Product Image1 update*/
-        $productImage1 = $request->file('productImage1');
-
-        if($productImage1){
-        $imageName = $productImage1->getClientOriginalName();
-        $uploadPath = 'public/productImage/';
-        $productImage1->move($uploadPath,$imageName);
-        $imageUrl = $uploadPath.$imageName;
-        $data['productImage1'] = $imageUrl;
-        }
-
-        /*Product Image2 update*/
-        $productImage2 = $request->file('productImage2');
-
-        if($productImage2){
-        $imageName = $productImage2->getClientOriginalName();
-        $uploadPath = 'public/productImage/';
-        $productImage2->move($uploadPath,$imageName);
-        $imageUrl = $uploadPath.$imageName;
-        $data['productImage2'] = $imageUrl;
-        }
-
-        /*Product Image3 update*/
-        $productImage3 = $request->file('productImage3');
-
-        if($productImage3){
-        $imageName = $productImage3->getClientOriginalName();
-        $uploadPath = 'public/productImage/';
-        $productImage3->move($uploadPath,$imageName);
-        $imageUrl = $uploadPath.$imageName;
-        $data['productImage3'] = $imageUrl;
-        }
-
-        /*Product Image4 update*/
-        $productImage4 = $request->file('productImage4');
-
-        if($productImage4){
-        $imageName = $productImage4->getClientOriginalName();
-        $uploadPath = 'public/productImage/';
-        $productImage4->move($uploadPath,$imageName);
-        $imageUrl = $uploadPath.$imageName;
-        $data['productImage4'] = $imageUrl;
-        }
         DB::table('product')
                 ->where('product_id',$product_id )
                 ->update($data);
