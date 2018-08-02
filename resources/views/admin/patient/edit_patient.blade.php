@@ -5,7 +5,7 @@
 <div class="validation-form">
  	<!---->
   	    
-        {!! Form::open(['url' => 'update-product','enctype'=>'multipart/form-data','name'=>'edit.product', 'method'=>'post']) !!}
+        {!! Form::open(['url' => 'update-patient','enctype'=>'multipart/form-data','name'=>'edit.product', 'method'=>'post']) !!}
          	<div class="">
           <h2>
             <?php
@@ -19,6 +19,7 @@
             <div class="col-md-12 form-group">
               <label class="form-control-label">Patient Name</label>
               <input type="text" class="form-control" name="patient_name" value="{{$patient_info->patient_name}}" placeholder="Name" required="">
+              <input type="hidden" class="form-control" name="patient_id" value="{{$patient_info->patient_id}}" placeholder="Name" required="">
             </div>
 
             <div class="col-md-12 form-group">
@@ -58,27 +59,15 @@
              
       
             <?php 
-              $commaString = $patient_info->test_name; 
-              $myArray = explode(', ', $commaString);
-              $array_count = count($myArray)-1;
-
-              for($i=0; $i<=$array_count; $i++){
+              $test_names = DB::table('test_names')
+                                ->get();
               ?>
-            <input type="checkbox" name="test_name[]" value="{{ $patient_info->test_name[$i] }}">  {{ $myArray[$i] }}
-           
-          <?php } ?>
+            @foreach($test_names as $v_test_names)
+            <input type="checkbox" name="test_name[]" value="{{ $v_test_names->test_name }}">  {{ $v_test_names->test_name }}
+            @endforeach
            
            </div>
-            
-            <!-- <div class="col-md-12 form-group">
-              <label class="form-control-label">Patient Short Description</label>
-              <textarea name="product_shortdescription" id="" class="form-control" placeholder=" Short Description" required=""></textarea>
-            </div>
 
-            <div class="col-md-12 form-group1 ">
-              <label class="control-label">Patient Long Description</label>
-              <textarea name="product_Longdescription" id="mytextarea" class="form-control" placeholder=" Long Description" ></textarea>
-            </div> -->
             <div class="row container">
             <div class="col-md-4 form-group">
               <label class="form-control-label">Paid</label>
@@ -86,10 +75,11 @@
             </div>
             <div class="col-md-4 form-group">
               <label class="form-control-label">Due</label>
-              <input type="text" class="form-control" value="{{$patient_info->total_due}}" name="paid" placeholder="Paid" required="">
+              <input type="text" class="form-control" value="{{$patient_info->total_due}}" name="due" placeholder="Paid" required="">
             </div>
             </div>
 
+            <div class="row container">
             <div class="col-md-6 form-group2 group-mail">
               <label class="form-control-label">Due Paid By</label>
             <?php
@@ -98,13 +88,23 @@
 
               ?>
             <select name="due_paid_by" class="form-control">
-
-            @foreach($category_name as $vcategory_name)
               <option value="">Pay By Referrence</option>
+            @foreach($category_name as $vcategory_name)
               <option value="{{$vcategory_name->doctorrefs_id}}">{{$vcategory_name->doctorName}}</option>
               @endforeach
             </select>
 
+            </div>
+
+             <div class="col-md-6 form-group">
+              <label class="form-control-label">Price Total</label>
+              <input type="text" value="{{$patient_info->price_total}}" class="form-control" name="price_total" placeholder="price_total" required="">
+            </div>
+           </div>
+
+            <div class="col-md-6 form-group">
+              <label class="form-control-label">Commission Total</label>
+              <input type="text" value="{{$patient_info->commission_total}}" class="form-control" name="commission_total" placeholder="commission_total" required="">
             </div>
 
             <div class="col-md-4 form-group2 group-mail">
@@ -114,7 +114,7 @@
               <option value="0">Unpublish</option>
             </select>
             </div>
-            
+
              <div class="clearfix" style="height:30px;"> </div>
           
             <div class="col-md-12 form-group">

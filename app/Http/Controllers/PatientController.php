@@ -27,32 +27,28 @@ class PatientController extends Controller
 
         $data['test_name'] = implode(', ' ,$request->test_name);
 
-        // $test_price = DB::table('test_names')
-        //         ->where('test_name_id',$test_id)
-        //         ->first();
-
         $data['test_price'] = implode(', ' ,$request->test_price);
         $data['commission_total'] = implode(', ' ,$request->test_commission);
         $commission = implode(', ' ,$request->test_commission);
     
         $data['publicationStatus'] = $request->publicationStatus;
 
-         $patient_id_is = DB::table('patients')
+        $patient_id_is = DB::table('patients')
                 ->insertGetId($data);
          
-         $patients = DB::table('patients')
+        $patients = DB::table('patients')
                           ->where('patient_id',$patient_id_is)
                           ->first();
 
-          $explodevalue =  explode(',', $patients->test_price);
-          $sum['price_total'] = array_sum($explodevalue);
-          $price_total = array_sum($explodevalue);
-          $commission =  explode(',', $patients->commission_total);
-          $commission_total = array_sum($commission);
-          $due_paid_by = $request->due_paid_by;
-          $paid_1 = $request->paid;
-          $price_t = $price_total;
-          $due = $price_t - $paid_1;
+        $explodevalue =  explode(',', $patients->test_price);
+        $sum['price_total'] = array_sum($explodevalue);
+        $price_total = array_sum($explodevalue);
+        $commission =  explode(',', $patients->commission_total);
+        $commission_total = array_sum($commission);
+        $due_paid_by = $request->due_paid_by;
+        $paid_1 = $request->paid;
+        $price_t = $price_total;
+        $due = $price_t - $paid_1;
           if($due_paid_by !== NULL && $due !== NULL){
              $sum['commission_total'] =$commission_total -$due;
              $sum['total_paid'] = $due +$paid_1;
@@ -99,37 +95,62 @@ class PatientController extends Controller
             ->with('patient_info',$patient_info);
     }
 
-    public function deleteThePatient($cat_id){
-        $category_info = DB::table('product')
-        ->where('product_id',$cat_id)
+    public function deleteThePatient($patient_id){
+        $category_info = DB::table('patients')
+        ->where('patient_id',$patient_id)
         ->delete();
 
-        Session::put('deleteCategory','Product deleted Successfully');
-        return Redirect::to('/manage-product');
+        Session::put('deleteCategory','Patient deleted Successfully');
+        return Redirect::to('/manage-patient');
     }
 
     public function updateThePatient(Request $request){
-        $product_id = $request->product_id;
-        $data['productName'] = $request->product_name;
-        $data['manufacturer_id'] = $request->manufacturer_id;
-        $data['category_url'] = $request->category_url;
-        $data['subcategory_url'] = $request->subcategory_url;
-        $data['productQuantity'] = $request->product_quantity;
-        $data['productPrice'] = $request->product_price;
-        $data['deals_upto'] = $request->deals_upto;
-        $data['productShortdescription'] = $request->product_Shortdescription;
 
-        $data['productLongdescription'] = $request->productLongdescription;
-        $data['publicationStatus'] = $request->publicationStatus;
-        
-        /*Product Featured Image update*/
-        DB::table('product')
-                ->where('product_id',$product_id )
-                ->update($data);
+        $patient_id = $request->patient_id;
+        $sum['patient_name'] = $request->patient_name;
+        $sum['gender'] = $request->gender;
+        $sum['age'] = $request->age;
+        $sum['doctorrefs_id'] = $request->doctorrefs_id;
+        $t_n = $request->test_name;
+        if($t_n){   
+        $sum['test_name'] = implode(', ' ,$request->test_name);
+        }
+        $t_p = $request->test_price;
+        if($t_p){ 
+        $sum['test_price'] = $request->test_price;
+        }
+        $c_t = $request->commission_total;
+        if($c_t){ 
+        $sum['commission_total'] = $request->commission_total;
+        }
+        $sum['publicationStatus'] = $request->publicationStatus;
+        $sum['total_due'] = $request->due;
+        $sum['price_total'] = $request->price_total;
+        $sum['commission_total'] = $request->commission_total;
+        $commission_total = $request->commission_total;
+        $due_paid_by = $request->due_paid_by;
+        $due = $request->Paid -$request->due;
+        $paid_1 = $request->paid;
+          if($due_paid_by !== NULL && $due !== NULL){
+             $sum['commission_total'] =$commission_total -$due;
+             $sum['total_paid'] = $due +$paid_1;
+             $sum['total_due'] = 0;
+          }else if($due_paid_by == NULL && $due !== NULL){
+             $sum['total_paid'] = $paid_1;
+             $sum['commission_total'] = $commission_total;
+             $sum['total_due'] = $due;
+          }else{
+            $sum['total_paid'] = $paid_1;
+            $sum['commission_total'] = $commission_total;
+            $sum['total_due'] = $due;
+          }
 
-        Session::put('updateCategory','Product update Successfully');
+          DB::table('patients')
+                  ->where('patient_id',$patient_id)
+                  ->update($sum);
+        Session::put('updateCategory','Patients update Successfully');
 
-    return Redirect::to('/manage-product');
+    return Redirect::to('/manage-patient');
     }
 
 

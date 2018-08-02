@@ -17,38 +17,26 @@
             ?>
           </h2>
             <div class="col-md-12 form-group">
-              <label class="form-control-label">Patient Name</label>
-              <input type="text" class="form-control" name="patient_name" value="{{$patient_info->patient_name}}" placeholder="Name" required="">
+              <label class="form-control-label"><b>Patient Name :</b>{{$patient_info->patient_name}} </label>
             </div>
 
             <div class="col-md-12 form-group">
-              <label class="form-control-label">Gender</label><br/>
-               <input type="radio" name="gender" value="male"> Male<br>
-                <input type="radio" name="gender" value="female"> Female<br>
+              <label class="form-control-label"><b>Gender :</b> {{$patient_info->gender}}</label><br/>
             </div>
 
              <div class="col-md-6 form-group">
-              <label class="form-control-label">Age</label>
-              <input type="text" value="{{$patient_info->age}}" class="form-control" name="age" placeholder="Age" required="">
+              <label class="form-control-label"><b>Age :</b> {{$patient_info->age}}</label>
             </div>
 
             <div class="col-md-6 form-group2 group-mail">
-              <label class="form-control-label">Dr/Ref By</label>
-            <?php
-              $category_name = DB::table('doctorrefs')
-              ->get();
-
-              ?>
-            <select name="doctorrefs_id" class="form-control">
-
-            @foreach($category_name as $vcategory_name)
-              <option value="{{$vcategory_name->doctorrefs_id}}">{{$vcategory_name->doctorName}}</option>
-              @endforeach
-            </select>
-
+        	<?php
+        		$ref_doctor = DB::table('doctorrefs')
+        						->where('doctorrefs_id',$patient_info->doctorrefs_id)
+        						->first();
+        	?>
+              <label class="form-control-label"><b>Dr/Ref By :</b>{{$ref_doctor->doctorName }}</label>
+            
             </div>
-
-            <!--  -->
             
             <div class="clearfix"> </div>
             </div>
@@ -64,21 +52,12 @@
 
               for($i=0; $i<=$array_count; $i++){
               ?>
-            <input type="checkbox" name="test_name[]" value="{{ $patient_info->test_name[$i] }}">  {{ $myArray[$i] }}
+            <input type="checkbox" name="test_name[]" value="{{ $patient_info->test_name[$i] }}" checked >  {{ $myArray[$i] }}
            
           <?php } ?>
            
            </div>
             
-            <!-- <div class="col-md-12 form-group">
-              <label class="form-control-label">Patient Short Description</label>
-              <textarea name="product_shortdescription" id="" class="form-control" placeholder=" Short Description" required=""></textarea>
-            </div>
-
-            <div class="col-md-12 form-group1 ">
-              <label class="control-label">Patient Long Description</label>
-              <textarea name="product_Longdescription" id="mytextarea" class="form-control" placeholder=" Long Description" ></textarea>
-            </div> -->
             <div class="row container">
             <div class="col-md-4 form-group">
               <label class="form-control-label">Paid</label>
@@ -90,6 +69,9 @@
             </div>
             </div>
 
+            <?php 
+            	$due_check = $patient_info->total_due;
+            if($due_check >=0){?>
             <div class="col-md-6 form-group2 group-mail">
               <label class="form-control-label">Due Paid By</label>
             <?php
@@ -98,15 +80,14 @@
 
               ?>
             <select name="due_paid_by" class="form-control">
-
+            <option value="">Pay By Referrence</option>
             @foreach($category_name as $vcategory_name)
-              <option value="">Pay By Referrence</option>
               <option value="{{$vcategory_name->doctorrefs_id}}">{{$vcategory_name->doctorName}}</option>
               @endforeach
             </select>
 
             </div>
-
+        	<?php } ?>
             <div class="col-md-4 form-group2 group-mail">
             <label class="form-control-label">Publication Status</label>
             <select name="publicationStatus" class="form-control">

@@ -92,16 +92,6 @@
             
             <div class="clearfix"> </div>
             </div>
-            
-            <!-- <div class="col-md-12 form-group">
-              <label class="form-control-label">Patient Short Description</label>
-              <textarea name="product_shortdescription" id="" class="form-control" placeholder=" Short Description" required=""></textarea>
-            </div>
-
-            <div class="col-md-12 form-group1 ">
-              <label class="control-label">Patient Long Description</label>
-              <textarea name="product_Longdescription" id="mytextarea" class="form-control" placeholder=" Long Description" ></textarea>
-            </div> -->
 
             <div class="col-md-6 form-group">
               <label class="form-control-label">Paid</label>
@@ -116,9 +106,8 @@
 
               ?>
             <select name="due_paid_by" class="form-control">
-
-            @foreach($category_name as $vcategory_name)
               <option value="">Pay By Referrence</option>
+            @foreach($category_name as $vcategory_name)
               <option value="{{$vcategory_name->doctorrefs_id}}">{{$vcategory_name->doctorName}}</option>
               @endforeach
             </select>
