@@ -23,8 +23,8 @@
 
             <div class="col-md-12 form-group">
               <label class="form-control-label">Gender</label><br/>
-               <input type="radio" name="gender" value="male"> Male<br>
-                <input type="radio" name="gender" value="female"> Female<br>
+               <input type="radio" name="gender" value="Male"> Male<br>
+                <input type="radio" name="gender" value="Female"> Female<br>
             </div>
 
              <div class="col-md-6 form-group">

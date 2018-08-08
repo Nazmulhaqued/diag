@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Redirect;
 use Session;
-
+use Barryvdh\DomPDF\PDF;
 class PatientController extends Controller
 {
     /**
@@ -78,6 +78,7 @@ class PatientController extends Controller
         return view('admin.patient.manage_patient')
             ->with('all_patients',$all_patients );
     }
+
     public function showPatient($product_id){
         $patient_info = DB::table('patients')
                             ->where('patient_id',$product_id)
@@ -86,6 +87,18 @@ class PatientController extends Controller
         return view ('admin.patient.single_patient')
                 ->with('patient_info',$patient_info);
      } 
+
+     public function downloadInvoice($product_id){
+        $patient_info = DB::table('patients')
+                            ->where('patient_id',$product_id)
+                            ->first();
+       $data = array();
+       $data['patient_info'] = $patient_info;
+       $pdf = \PDF::loadView('admin.patient.invoice', $data);
+       return $pdf->download('invoice.pdf');
+     } 
+
+
     public function editThePatient($product_id){
             $patient_info = DB::table('patients')
                 ->where('patient_id',$product_id)

@@ -65,6 +65,8 @@ Route::get('/edit-patient/{id}','PatientController@editThePatient');
 Route::post('/update-patient','PatientController@updateThePatient');
 Route::get('/delete-patient/{id}','PatientController@deleteThePatient');
 
+Route::get('/download-invoice/{id}','PatientController@downloadInvoice');
+
 
 /*Copyright Route*/
 Route::get('/add-Copyright','CopyrightController@createCopyright');
@@ -81,6 +83,7 @@ Route::get('/manage-order','SuperAdminController@manageOrders');
 Route::get('/edit-Order/{id}','SuperAdminController@editOrders');
 Route::post('/update-order','SuperAdminController@updateOrder');
 Route::get('/delete-order/{id}','SuperAdminController@deleteOrder');
+
 Route::get('/view-order/{id}','SuperAdminController@viewOrders');
 
 Route::post('/login-customer','CheckoutController@loginCustomer');

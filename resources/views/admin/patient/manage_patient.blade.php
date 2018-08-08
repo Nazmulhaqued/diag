@@ -48,7 +48,9 @@
 	      @else
 	      <td>Unpublish</td>
 	      @endif
-	      <td><a href="{{url('/view-patient/'.$v_all_patients->patient_id)}}">View</a> | <a href="{{url('/edit-patient/'.$v_all_patients->patient_id)}}">Edit</a> | <a href="{{url('/delete-patient/'.$v_all_patients->patient_id)}}">Delete</a></td>
+	      <td><a href="{{url('/view-patient/'.$v_all_patients->patient_id)}}">View</a> | <a href="{{url('/edit-patient/'.$v_all_patients->patient_id)}}">Edit</a> | <a href="{{url('/download-invoice/'.$v_all_patients->patient_id)}}">Download</a> |
+	      	<a href="{{url('/delete-patient/'.$v_all_patients->patient_id)}}">Delete</a>
+	      </td>
 	      @endforeach
 	    </tr>
 	  </tbody>

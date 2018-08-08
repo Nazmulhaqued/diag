@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Carbon - Admin Template</title>
@@ -91,112 +92,10 @@
 </nav>
 
 <div class="main-container">
-<div class="sidebar">
-    <nav class="sidebar-nav">
-        <ul class="nav">
-            <li class="nav-title">Navigation</li>
 
-            <li class="nav-item">
-                <a href="{{url('/dashboard')}}" class="nav-link active">
-                    <i class="icon icon-speedometer"></i> Dashboard
-                </a>
-            </li>
-
-            <li class="nav-item nav-dropdown">
-                <a href="{{url('/manage-test')}}" class="nav-link nav-dropdown-toggle">
-                    <i class="icon icon-target"></i> Test <i class="fa fa-caret-left"></i>
-                </a>
-
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{url('/add-test')}}" class="nav-link">
-                            <i class="icon icon-target"></i> Add Test
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{url('/manage-test')}}" class="nav-link">
-                            <i class="icon icon-target"></i> Manage Test
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-item nav-dropdown">
-                <a href="{{url('/manage-doctor')}}" class="nav-link nav-dropdown-toggle">
-                    <i class="icon icon-target"></i> Doctors/Ref <i class="fa fa-caret-left"></i>
-                </a>
-
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{url('/add-doctor')}}" class="nav-link">
-                            <i class="icon icon-target"></i> Add Doctor
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{url('/manage-doctor')}}" class="nav-link">
-                            <i class="icon icon-target"></i> Manage Doctor
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-item nav-dropdown">
-                <a href="{{url('\manage-product')}}" class="nav-link nav-dropdown-toggle">
-                    <i class="icon icon-graph"></i>Patient Name
- <i class="fa fa-caret-left"></i>
-                </a>
-
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{url('/add-patient')}}" class="nav-link">
-                            <i class="icon icon-graph"></i> Add Patient
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{url('/manage-patient')}}" class="nav-link">
-                            <i class="icon icon-graph"></i> Manage Patient
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-           <!--  <li class="nav-item nav-dropdown">
-                <a href="{{url('#')}}" class="nav-link nav-dropdown-toggle">
-                    <i class="icon icon-graph"></i>Copyright <i class="fa fa-caret-left"></i>
-                </a>
-
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{url('/add-Copyright')}}" class="nav-link">
-                            <i class="icon icon-graph"></i> Add Copyright
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{url('/manage-Copyright')}}" class="nav-link">
-                            <i class="icon icon-graph"></i> Manage Copyright
-                        </a>
-                    </li>
-                </ul>
-            </li> -->
-
-            </li>
-
-
-
-        </ul>
-    </nav>
-</div>
-
+     @include('admin_menu')
     <div class="content">
-        @yield('admin_content')
+     @yield('admin_content')
     </div>
 </div>
 </div>
